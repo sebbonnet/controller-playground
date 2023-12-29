@@ -15,3 +15,8 @@ go mod init github.com/sebbonnet/controller-playground
 go mod tidy
 ```
 
+## Usage
+
+```
+IMG=<repo>/my-controller NAMESPACE=seb-test make docker-build docker-push deploy
+```

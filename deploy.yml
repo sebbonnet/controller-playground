@@ -1,0 +1,56 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: api-explorer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: api-explorer
+subjects:
+  - kind: ServiceAccount
+    name: api-explorer
+    namespace: ${NAMESPACE}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: api-explorer
+  namespace: ${NAMESPACE}
+automountServiceAccountToken: true
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: api-explorer
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["get", "list"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-controller
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-controller
+  template:
+    metadata:
+      labels:
+        app: my-controller
+    spec:
+      serviceAccountName: api-explorer
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: my-controller
+          image: ${IMG}:${VERSION}
+          resources:
+            requests:
+              memory: 50Mi
+              cpu: 20m
+            limits:
+              memory: 50Mi

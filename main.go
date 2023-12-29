@@ -1,4 +1,4 @@
-package controller_playground
+package main
 
 import (
 	"context"
