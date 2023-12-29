@@ -18,5 +18,9 @@ go mod tidy
 ## Usage
 
 ```
-IMG=<repo>/my-controller NAMESPACE=seb-test make docker-build docker-push deploy
+IMG=<repo>/my-controller NAMESPACE=${NAMESPACE} make docker-build docker-push deploy
+```
+
+```
+kubectl -n ${NAMESPACE} logs -f -lapp=my-controller
 ```
