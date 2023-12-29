@@ -18,10 +18,12 @@ func main() {
 	explorer := NewApiExplorer()
 
 	for {
+		fmt.Printf("\n\n========== \nRunning discovery at %s\n========== \n", time.Now())
+
 		explorer.PrintPodCount()
 		explorer.PrintDeprecatedApis()
 
-		time.Sleep(60 * time.Second)
+		time.Sleep(1 * time.Hour)
 	}
 }
 
@@ -72,7 +74,7 @@ func (a *ApiExplorer) PrintDeprecatedApis() {
 			if i.GetNamespace() != "" {
 				fmt.Printf("Found %s in namespace: %s\n", i.GetName(), i.GetNamespace())
 			} else {
-				fmt.Printf("Found %s: \n", i.GetName())
+				fmt.Printf("Found %s\n", i.GetName())
 			}
 		}
 	}
